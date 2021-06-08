@@ -235,6 +235,24 @@ def get_false_negative_rate(prediction_label_pairs):
         return false_negatives / labelled_positives
     else:
         return 0
+def get_false_negative_rate1(prediction_label_pairs):
+    false_negatives = 0
+    labelled_positives = 0
+
+    for pair in prediction_label_pairs:
+        prediction = int(pair[0])
+        label = int(pair[1])
+        if label == 1:
+            labelled_positives += 1
+            if prediction == 1:
+                false_negatives += 1
+    print("labelled_positives",labelled_positives)
+    print("true_psitives given label positive 1",false_negatives)
+    if labelled_positives != 0:
+        return false_negatives / labelled_positives
+    else:
+        return 0
+
 
 #######################################################################################################################
 """Determines the number of true positives in a group
@@ -304,7 +322,9 @@ number of predicted positives
 def get_positive_predictive_value(prediction_label_pairs):
     true_positives = get_num_true_positives(prediction_label_pairs)
     predicted_positives = get_num_predicted_positives(prediction_label_pairs)
-
+    print("prec related data")
+    print("true_positives",true_positives)
+    print("predicted_positives",predicted_positives)
     if predicted_positives == 0:
         return 0
     else:
@@ -327,7 +347,9 @@ def calculate_Fscore(prediction_label_pairs):
 
     numerator = precision * recall
     denominator = precision + recall
-
+    print(get_false_negative_rate1(prediction_label_pairs))
+    print("recall",recall)
+    print("precision",precision)
     return 2 * (numerator/denominator)
 
 #######################################################################################################################
@@ -349,6 +371,7 @@ def get_ROC_data(prediction_label_pairs, group):
 #######################################################################################################################
 
 def plot_ROC_data(ROC_data_list):
+    #print(len(ROC_data_list))
     for curve in  ROC_data_list:
         TPR = curve[0]
         FPR = curve[1]
